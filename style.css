@@ -1,0 +1,340 @@
+/* =========================================================
+   WEDDING SITE STYLES
+   Change --gold / --blush / --cream below to reskin the palette.
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+:root {
+  --cream: #f7f1e8;
+  --blush: #e8d6cd;
+  --gold: #b08d57;
+  --deep: #2e2a26;
+  --ink: #4a433c;
+  --line: #d8c9b8;
+  --radius: 4px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.6;
+}
+
+h1, h2, h3, .script {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--deep);
+  font-weight: 600;
+}
+
+a { color: var(--gold); text-decoration: none; }
+
+.section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 90px 24px;
+  text-align: center;
+}
+
+.section + .section { border-top: 1px solid var(--line); }
+
+.eyebrow {
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+h2.title {
+  font-size: 42px;
+  margin-bottom: 30px;
+}
+
+.edit-me {
+  outline: 1px dashed transparent;
+}
+.edit-hint {
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #a3462f;
+  background: #fbe9e4;
+  border-radius: 3px;
+  padding: 2px 8px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* ---------- Cover ---------- */
+.cover {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(rgba(20,17,14,0.45), rgba(20,17,14,0.45)), url('images/cover.jpg') center/cover no-repeat;
+  color: #fff;
+  padding: 40px 20px;
+}
+.cover-inner .eyebrow { color: #f0e4d3; }
+.cover h1 {
+  font-size: 72px;
+  color: #fff;
+  margin: 10px 0 20px;
+  letter-spacing: 2px;
+}
+.cover .wedo {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  margin-bottom: 26px;
+  color: #f0e4d3;
+}
+.cover .invite-line {
+  letter-spacing: 2px;
+  font-size: 13px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  color: #f0e4d3;
+}
+.cover .date-block {
+  display: inline-flex;
+  gap: 22px;
+  align-items: baseline;
+  border-top: 1px solid rgba(255,255,255,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.5);
+  padding: 18px 30px;
+  font-family: 'Cormorant Garamond', serif;
+}
+.cover .date-block .big { font-size: 44px; }
+.cover .location-line {
+  margin-top: 22px;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+.scroll-cue {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #f0e4d3;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 8px); }
+}
+
+/* ---------- Countdown ---------- */
+.countdown {
+  background: var(--blush);
+}
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.countdown-grid div {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  min-width: 90px;
+}
+.countdown-grid .num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px;
+  color: var(--gold);
+  display: block;
+}
+.countdown-grid .label {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ---------- Our Story ---------- */
+.story img {
+  width: 100%;
+  max-width: 520px;
+  border-radius: var(--radius);
+  margin: 20px 0 30px;
+}
+.story p {
+  max-width: 620px;
+  margin: 0 auto;
+  font-size: 16px;
+}
+
+/* ---------- Locations ---------- */
+.locations-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 30px;
+  text-align: left;
+}
+@media (max-width: 640px) { .locations-grid { grid-template-columns: 1fr; } }
+.loc-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  margin-bottom: 14px;
+}
+.loc-card h3 { font-size: 24px; margin-bottom: 6px; }
+.loc-card .addr { font-size: 14px; margin-bottom: 10px; color: var(--ink); }
+
+/* ---------- Itinerary ---------- */
+.itinerary-list {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  text-align: center;
+}
+.itinerary-list .item { max-width: 140px; }
+.itinerary-list .time {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 4px;
+}
+.itinerary-list .label { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+
+/* ---------- Travel Guide ---------- */
+.travel-guide { background: var(--blush); text-align: left; }
+.travel-guide .section-inner { max-width: 780px; margin: 0 auto; }
+.travel-guide h2.title, .travel-guide > .eyebrow { text-align: center; }
+.travel-guide .intro { text-align: center; margin-bottom: 30px; }
+.travel-block { margin-bottom: 34px; }
+.travel-block h3 {
+  font-size: 22px;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+}
+.travel-item { margin-bottom: 16px; }
+.travel-item .name { font-weight: 600; color: var(--deep); }
+.travel-item .addr { font-size: 13px; color: var(--ink); font-style: italic; }
+.travel-item ul { margin: 6px 0 0 18px; font-size: 14px; }
+.itinerary-days { display: grid; gap: 16px; margin-top: 10px; }
+.itinerary-days .day { background: #fff; padding: 16px 18px; border-radius: var(--radius); }
+.itinerary-days .day h4 { font-size: 16px; margin-bottom: 6px; color: var(--gold); }
+.itinerary-days .day ul { margin-left: 18px; font-size: 14px; }
+.top-picks { background: #fff; padding: 16px 18px; border-radius: var(--radius); margin-top: 10px; }
+
+/* ---------- Registry ---------- */
+.registry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 20px;
+  text-align: left;
+}
+@media (max-width: 640px) { .registry-grid { grid-template-columns: 1fr; } }
+.registry-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
+}
+.registry-card h3 { font-size: 20px; margin-bottom: 10px; }
+.bank-details div { font-size: 14px; margin-bottom: 4px; }
+
+/* ---------- Dress Code ---------- */
+.dresscode-grid {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.palette {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+}
+.swatch { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line); }
+.dresscode-note {
+  margin-top: 26px;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* ---------- Hashtag ---------- */
+.hashtag .tag {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+/* ---------- RSVP ---------- */
+.rsvp-form {
+  max-width: 480px;
+  margin: 30px auto 0;
+  text-align: left;
+  display: grid;
+  gap: 16px;
+}
+.rsvp-form label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 6px;
+}
+.rsvp-form input,
+.rsvp-form select,
+.rsvp-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  background: #fff;
+}
+.rsvp-form button {
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.rsvp-form button:hover { opacity: 0.9; }
+.rsvp-note { font-size: 12px; margin-top: 10px; color: var(--ink); }
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center;
+  padding: 50px 24px;
+  background: var(--deep);
+  color: #f0e4d3;
+}
+footer .script {
+  font-size: 30px;
+  margin-bottom: 8px;
+  color: #f0e4d3;
+}
+footer .date { font-size: 13px; letter-spacing: 2px; }
