@@ -3,33 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[Bride] &amp; [Groom] — Wedding</title>
-<meta name="description" content="Join us to celebrate the wedding of [Bride] &amp; [Groom]. [Month Day, Year] — Alvarado, Texas.">
+<title id="page-title">[Bride] &amp; [Groom] — Wedding</title>
+<meta id="page-description" name="description" content="Join us to celebrate the wedding of [Bride] &amp; [Groom]. [Month Day, Year] — Alvarado, Texas.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- ============ OPENING CURTAINS ============ -->
+<div id="curtain-overlay">
+  <div class="curtain-panel curtain-left"></div>
+  <div class="curtain-panel curtain-right"></div>
+  <div class="curtain-center">
+    <img src="images/monogram.jpg" alt="Monogram" class="monogram">
+    <div class="tap-text">Tap to Open</div>
+  </div>
+</div>
+
+<!-- Background music. Replace audio/song.mp3 with your own track (see README — use a song you have the rights to use). -->
+<audio id="bg-music" src="audio/song.mp3" loop preload="auto"></audio>
+<button id="music-toggle" aria-label="Toggle music">
+  <span id="music-icon">♪</span>
+</button>
+
 <!-- ============ COVER ============ -->
 <section class="cover">
   <div class="cover-inner">
+    <img src="images/couple.jpg" alt="Couple" class="couple-photo">
     <div class="eyebrow">Together with our families</div>
-    <h1>[BRIDE] &amp; [GROOM] <span class="edit-hint">edit names</span></h1>
+    <h1><span data-field="brideName">[BRIDE]</span> &amp; <span data-field="groomName">[GROOM]</span> <span class="edit-hint">edit names</span></h1>
     <div class="wedo">We Do</div>
     <div class="invite-line">We invite you to celebrate our wedding</div>
     <div class="date-block">
       <div>
-        <div class="big">[MONTH]</div>
+        <div class="big" data-field="weddingMonth">[MONTH]</div>
       </div>
       <div>
-        <div class="big">[DD]</div>
-        <div>[Day of week]</div>
+        <div class="big" data-field="weddingDay">[DD]</div>
+        <div data-field="weddingDayOfWeek">[Day of week]</div>
       </div>
       <div>
-        <div class="big">[YYYY]</div>
-        <div>at [6:00 PM]</div>
+        <div class="big" data-field="weddingYear">[YYYY]</div>
+        <div>at <span data-field="weddingTime">[6:00 PM]</span></div>
       </div>
     </div>
-    <div class="location-line">[Venue Name], Alvarado, Texas <span class="edit-hint">edit venue</span></div>
+    <div class="location-line"><span data-field="venueName">[Venue Name]</span>, <span data-field="venueCity">Alvarado, Texas</span> <span class="edit-hint">edit venue</span></div>
   </div>
   <div class="scroll-cue">Scroll ↓</div>
 </section>
@@ -51,7 +68,15 @@
   <div class="eyebrow">Love Story</div>
   <h2 class="title">Our Story</h2>
   <img src="images/story.jpg" alt="Our story">
-  <p>[Write a few sentences about how you met, a memorable moment, and why you're excited to celebrate this next chapter together.] <span class="edit-hint">edit story</span></p>
+  <p data-field="ourStory">[Write a few sentences about how you met, a memorable moment, and why you're excited to celebrate this next chapter together.] <span class="edit-hint">edit story</span></p>
+
+  <div class="song-widget">
+    <button id="song-play" aria-label="Play song">▶</button>
+    <div class="song-info">
+      <div class="song-title">♪ <span data-field="songTitle">[Your Song Title]</span> <span class="edit-hint">edit title</span></div>
+      <div class="song-time"><span id="song-current">0:00</span> / <span id="song-duration">0:00</span></div>
+    </div>
+  </div>
 </section>
 
 <!-- ============ LOCATIONS ============ -->
@@ -62,14 +87,14 @@
     <div class="loc-card">
       <img src="images/ceremony.jpg" alt="Ceremony venue">
       <h3>Ceremony</h3>
-      <div class="addr">[Ceremony Venue Name]<br>Alvarado, Texas <span class="edit-hint">edit address</span></div>
-      <a href="#" target="_blank">Open in Google Maps</a>
+      <div class="addr"><span data-field="ceremonyVenueName">[Ceremony Venue Name]</span><br><span data-field="ceremonyAddress">Alvarado, Texas</span> <span class="edit-hint">edit address</span></div>
+      <a href="#" id="ceremony-maps-link" target="_blank">Open in Google Maps</a>
     </div>
     <div class="loc-card">
       <img src="images/reception.jpg" alt="Reception venue">
       <h3>Reception</h3>
-      <div class="addr">[Reception Venue Name]<br>Alvarado, Texas <span class="edit-hint">edit address</span></div>
-      <a href="#" target="_blank">Open in Google Maps</a>
+      <div class="addr"><span data-field="receptionVenueName">[Reception Venue Name]</span><br><span data-field="receptionAddress">Alvarado, Texas</span> <span class="edit-hint">edit address</span></div>
+      <a href="#" id="reception-maps-link" target="_blank">Open in Google Maps</a>
     </div>
   </div>
 </section>
@@ -78,11 +103,11 @@
 <section class="section itinerary">
   <div class="eyebrow">Schedule</div>
   <h2 class="title">Itinerary</h2>
-  <div class="itinerary-list">
-    <div class="item"><span class="time">[6:00 PM]</span><span class="label">Ceremony</span></div>
-    <div class="item"><span class="time">[8:30 PM]</span><span class="label">Reception</span></div>
-    <div class="item"><span class="time">[9:30 PM]</span><span class="label">Dinner</span></div>
-    <div class="item"><span class="time">[10:30 PM]</span><span class="label">Let's Celebrate!</span></div>
+  <div class="itinerary-list" id="itinerary-list">
+    <div class="item"><div class="icon-circle" data-itinerary="0-icon">💍</div><span class="time" data-itinerary="0-time">[6:00 PM]</span><span class="label" data-itinerary="0-label">Ceremony</span></div>
+    <div class="item"><div class="icon-circle" data-itinerary="1-icon">🥂</div><span class="time" data-itinerary="1-time">[8:30 PM]</span><span class="label" data-itinerary="1-label">Reception</span></div>
+    <div class="item"><div class="icon-circle" data-itinerary="2-icon">🍽️</div><span class="time" data-itinerary="2-time">[9:30 PM]</span><span class="label" data-itinerary="2-label">Dinner</span></div>
+    <div class="item"><div class="icon-circle" data-itinerary="3-icon">🎉</div><span class="time" data-itinerary="3-time">[10:30 PM]</span><span class="label" data-itinerary="3-label">Let's Celebrate!</span></div>
   </div>
 </section>
 
@@ -219,16 +244,32 @@
   <div class="registry-grid">
     <div class="registry-card">
       <h3>Amazon Registry</h3>
-      <p><a href="#" target="_blank">View Registry</a> <span class="edit-hint">add link</span></p>
+      <p><a href="#" id="amazon-registry-link" target="_blank">View Registry</a> <span class="edit-hint">add link</span></p>
     </div>
     <div class="registry-card">
       <h3>Bank Transfer</h3>
       <div class="bank-details">
-        <div>Bank: [Bank Name]</div>
-        <div>Account: [Account Number]</div>
-        <div>Holder: [Account Holder]</div>
+        <div>Bank: <span data-field="bankName">[Bank Name]</span></div>
+        <div>Account: <span data-field="bankAccount">[Account Number]</span></div>
+        <div>Holder: <span data-field="bankHolder">[Account Holder]</span></div>
       </div>
       <span class="edit-hint">edit bank details</span>
+    </div>
+    <div class="registry-card">
+      <h3>Zelle</h3>
+      <div class="bank-details">
+        <div>Name: <span data-field="zelleName">[Zelle Name]</span></div>
+        <div>Phone/Email: <span data-field="zelleContact">[Zelle Phone or Email]</span></div>
+      </div>
+      <span class="edit-hint">edit Zelle details</span>
+    </div>
+    <div class="registry-card">
+      <h3>Cash App</h3>
+      <div class="bank-details">
+        <div>Cashtag: <span data-field="cashtag">[$Cashtag]</span></div>
+      </div>
+      <p><a href="#" id="cashapp-link" target="_blank">Open Cash App</a></p>
+      <span class="edit-hint">edit Cash App cashtag</span>
     </div>
   </div>
 </section>
@@ -257,14 +298,14 @@
       </div>
     </div>
   </div>
-  <p class="dresscode-note">[Add any notes — e.g. colors to avoid, adults-only event, etc.] <span class="edit-hint">edit note</span></p>
+  <p class="dresscode-note" data-field="dressNote">[Add any notes — e.g. colors to avoid, adults-only event, etc.] <span class="edit-hint">edit note</span></p>
 </section>
 
 <!-- ============ HASHTAG ============ -->
 <section class="section hashtag">
   <div class="eyebrow">Share the Moment</div>
   <h2 class="title">Share Your Photos</h2>
-  <div class="tag">#[BrideAndGroom]</div>
+  <div class="tag" data-field="hashtag">#[BrideAndGroom]</div>
   <p>Help us capture every moment by using our hashtag when you post on social media.</p>
 </section>
 
@@ -272,7 +313,7 @@
 <section class="section rsvp">
   <div class="eyebrow">RSVP</div>
   <h2 class="title">Confirm Your Attendance</h2>
-  <p>Please confirm by [RSVP Deadline Date].</p>
+  <p>Please confirm by <span data-field="rsvpDeadline">[RSVP Deadline Date]</span>.</p>
 
   <!--
     This form works with zero setup using a mailto link (opens the guest's email app).
@@ -302,13 +343,13 @@
       <textarea id="message" name="message" rows="3"></textarea>
     </div>
     <button type="submit">Send RSVP</button>
-    <p class="rsvp-note">This will open your email app to send the RSVP to [your email] <span class="edit-hint">edit email in script.js</span>.</p>
+    <p class="rsvp-note">This will open your email app to send the RSVP to <span data-field="rsvpEmail">[your email]</span> <span class="edit-hint">edit via editor.html</span>.</p>
   </form>
 </section>
 
 <footer>
-  <div class="script">[Bride] &amp; [Groom]</div>
-  <div class="date">[DD] . [MM] . [YYYY] — Thank you for being part of our story</div>
+  <div class="script"><span data-field="brideName">[Bride]</span> &amp; <span data-field="groomName">[Groom]</span></div>
+  <div class="date"><span data-field="weddingDay">[DD]</span> . <span data-field="weddingMonth">[MM]</span> . <span data-field="weddingYear">[YYYY]</span> — Thank you for being part of our story</div>
 </footer>
 
 <script src="script.js"></script>

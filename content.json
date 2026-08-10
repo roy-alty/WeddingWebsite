@@ -1,0 +1,43 @@
+{
+  "brideName": "BRIDE",
+  "groomName": "GROOM",
+  "weddingDateISO": "2026-12-13T18:00:00",
+  "weddingMonth": "MONTH",
+  "weddingDay": "DD",
+  "weddingDayOfWeek": "Day of week",
+  "weddingYear": "YYYY",
+  "weddingTime": "6:00 PM",
+  "venueName": "Venue Name",
+  "venueCity": "Alvarado, Texas",
+
+  "ourStory": "Write a few sentences about how you met, a memorable moment, and why you're excited to celebrate this next chapter together.",
+  "songTitle": "Your Song Title",
+
+  "ceremonyVenueName": "Ceremony Venue Name",
+  "ceremonyAddress": "Alvarado, Texas",
+  "ceremonyMapsLink": "#",
+  "receptionVenueName": "Reception Venue Name",
+  "receptionAddress": "Alvarado, Texas",
+  "receptionMapsLink": "#",
+
+  "itinerary": [
+    { "icon": "💍", "time": "6:00 PM", "label": "Ceremony" },
+    { "icon": "🥂", "time": "8:30 PM", "label": "Reception" },
+    { "icon": "🍽️", "time": "9:30 PM", "label": "Dinner" },
+    { "icon": "🎉", "time": "10:30 PM", "label": "Let's Celebrate!" }
+  ],
+
+  "amazonRegistryLink": "#",
+  "bankName": "Bank Name",
+  "bankAccount": "Account Number",
+  "bankHolder": "Account Holder",
+  "zelleName": "Zelle Name",
+  "zelleContact": "Zelle Phone or Email",
+  "cashtag": "$Cashtag",
+
+  "dressNote": "Add any notes — e.g. colors to avoid, adults-only event, etc.",
+  "hashtag": "#BrideAndGroom",
+
+  "rsvpDeadline": "RSVP Deadline Date",
+  "rsvpEmail": "your-email@example.com"
+}

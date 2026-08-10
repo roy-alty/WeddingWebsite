@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Site Editor</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@400;500;600&display=swap');
+
+:root {
+  --cream: #f7f1e8;
+  --blush: #e8d6cd;
+  --gold: #b08d57;
+  --deep: #2e2a26;
+  --ink: #4a433c;
+  --line: #d8c9b8;
+  --ok: #4a7c59;
+  --warn: #a3462f;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+}
+header {
+  background: var(--deep);
+  color: #f0e4d3;
+  padding: 24px 28px;
+  text-align: center;
+}
+header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  margin: 0 0 6px;
+  font-size: 30px;
+}
+header p { margin: 0; font-size: 13px; opacity: 0.85; }
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 0;
+  align-items: start;
+}
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+main { padding: 28px; max-width: 720px; margin: 0 auto; }
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--blush);
+  padding: 24px;
+  border-left: 1px solid var(--line);
+}
+
+fieldset {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin-bottom: 22px;
+  padding: 18px 20px 20px;
+  background: #fff;
+}
+legend {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  color: var(--deep);
+  padding: 0 8px;
+}
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.row.single { grid-template-columns: 1fr; }
+@media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+
+label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+input[type="text"], input[type="email"], input[type="url"], input[type="datetime-local"], textarea {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  background: var(--cream);
+}
+textarea { resize: vertical; }
+
+.itin-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--line);
+}
+.file-row:last-child { border-bottom: none; }
+.file-row .thumb {
+  width: 54px;
+  height: 54px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: var(--blush);
+  flex-shrink: 0;
+}
+.file-row .meta { flex: 1; }
+.file-row .meta .name { font-size: 13px; font-weight: 600; color: var(--deep); }
+.file-row .meta .hint { font-size: 11px; color: var(--ink); }
+.file-row input[type="file"] { font-size: 12px; max-width: 170px; }
+
+button {
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+}
+.btn-primary {
+  width: 100%;
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 5px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.btn-secondary {
+  width: 100%;
+  background: #fff;
+  color: var(--deep);
+  border: 1px solid var(--gold);
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.status {
+  font-size: 12px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  display: none;
+}
+.status.ok { display: block; background: #e6f0e8; color: var(--ok); }
+.status.warn { display: block; background: #fbe9e4; color: var(--warn); }
+.status.info { display: block; background: #eef1fb; color: #3a4b8f; }
+
+.preview-card {
+  background: #fff;
+  border-radius: 6px;
+  padding: 18px;
+  margin-bottom: 16px;
+  border: 1px solid var(--line);
+}
+.preview-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  margin: 0 0 4px;
+  font-size: 26px;
+  color: var(--deep);
+}
+.preview-card .sub { font-size: 12px; color: var(--ink); margin-bottom: 10px; }
+.preview-card p { font-size: 13px; line-height: 1.5; margin: 0; }
+.sidebar-note { font-size: 11px; color: var(--ink); line-height: 1.5; margin-top: 6px; }
+.sidebar h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  margin: 0 0 14px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Wedding Site Editor</h1>
+  <p>Fill this out, then save — no code editing required.</p>
+</header>
+
+<div class="layout">
+<main>
+
+  <div id="load-status" class="status"></div>
+
+  <form id="content-form">
+
+    <fieldset>
+      <legend>Couple &amp; Date</legend>
+      <div class="row">
+        <div><label for="brideName">Bride's Name</label><input type="text" id="brideName"></div>
+        <div><label for="groomName">Groom's Name</label><input type="text" id="groomName"></div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="weddingDateISO">Wedding Date &amp; Time (drives the countdown)</label>
+          <input type="datetime-local" id="weddingDateISO">
+        </div>
+        <div><label for="weddingTime">Time shown on the cover (e.g. 6:00 PM)</label><input type="text" id="weddingTime"></div>
+      </div>
+      <div class="row">
+        <div><label for="weddingMonth">Month (e.g. December)</label><input type="text" id="weddingMonth"></div>
+        <div><label for="weddingDay">Day (e.g. 13)</label><input type="text" id="weddingDay"></div>
+      </div>
+      <div class="row">
+        <div><label for="weddingDayOfWeek">Day of Week (e.g. Sunday)</label><input type="text" id="weddingDayOfWeek"></div>
+        <div><label for="weddingYear">Year (e.g. 2026)</label><input type="text" id="weddingYear"></div>
+      </div>
+      <div class="row">
+        <div><label for="venueName">Venue Name</label><input type="text" id="venueName"></div>
+        <div><label for="venueCity">City / Region</label><input type="text" id="venueCity"></div>
+      </div>
+      <p class="sidebar-note">Keep the month/day/year fields consistent with the date &amp; time above — they're shown separately for styling reasons.</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Our Story &amp; Song</legend>
+      <div class="row single">
+        <div><label for="ourStory">Our Story</label><textarea id="ourStory" rows="4"></textarea></div>
+      </div>
+      <div class="row single">
+        <div><label for="songTitle">Song Title</label><input type="text" id="songTitle"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Locations</legend>
+      <div class="row">
+        <div><label for="ceremonyVenueName">Ceremony Venue Name</label><input type="text" id="ceremonyVenueName"></div>
+        <div><label for="ceremonyAddress">Ceremony Address</label><input type="text" id="ceremonyAddress"></div>
+      </div>
+      <div class="row single">
+        <div><label for="ceremonyMapsLink">Ceremony Google Maps Link</label><input type="url" id="ceremonyMapsLink" placeholder="https://maps.app.goo.gl/..."></div>
+      </div>
+      <div class="row">
+        <div><label for="receptionVenueName">Reception Venue Name</label><input type="text" id="receptionVenueName"></div>
+        <div><label for="receptionAddress">Reception Address</label><input type="text" id="receptionAddress"></div>
+      </div>
+      <div class="row single">
+        <div><label for="receptionMapsLink">Reception Google Maps Link</label><input type="url" id="receptionMapsLink" placeholder="https://maps.app.goo.gl/..."></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Itinerary</legend>
+      <div class="itin-row">
+        <input type="text" id="itin-0-icon" title="Icon">
+        <input type="text" id="itin-0-time" placeholder="Time">
+        <input type="text" id="itin-0-label" placeholder="Label">
+      </div>
+      <div class="itin-row">
+        <input type="text" id="itin-1-icon" title="Icon">
+        <input type="text" id="itin-1-time" placeholder="Time">
+        <input type="text" id="itin-1-label" placeholder="Label">
+      </div>
+      <div class="itin-row">
+        <input type="text" id="itin-2-icon" title="Icon">
+        <input type="text" id="itin-2-time" placeholder="Time">
+        <input type="text" id="itin-2-label" placeholder="Label">
+      </div>
+      <div class="itin-row">
+        <input type="text" id="itin-3-icon" title="Icon">
+        <input type="text" id="itin-3-time" placeholder="Time">
+        <input type="text" id="itin-3-label" placeholder="Label">
+      </div>
+      <p class="sidebar-note">First column is the emoji icon (e.g. 💍) — swap it for any emoji you like.</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Gift Registry</legend>
+      <div class="row single">
+        <div><label for="amazonRegistryLink">Amazon Registry Link</label><input type="url" id="amazonRegistryLink"></div>
+      </div>
+      <div class="row">
+        <div><label for="bankName">Bank Name</label><input type="text" id="bankName"></div>
+        <div><label for="bankAccount">Account Number</label><input type="text" id="bankAccount"></div>
+      </div>
+      <div class="row single">
+        <div><label for="bankHolder">Account Holder</label><input type="text" id="bankHolder"></div>
+      </div>
+      <div class="row">
+        <div><label for="zelleName">Zelle Name</label><input type="text" id="zelleName"></div>
+        <div><label for="zelleContact">Zelle Phone or Email</label><input type="text" id="zelleContact"></div>
+      </div>
+      <div class="row single">
+        <div><label for="cashtag">Cash App Cashtag (e.g. $YourName)</label><input type="text" id="cashtag" placeholder="$YourName"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Dress Code &amp; Hashtag</legend>
+      <div class="row single">
+        <div><label for="dressNote">Dress Code Note</label><textarea id="dressNote" rows="2"></textarea></div>
+      </div>
+      <div class="row single">
+        <div><label for="hashtag">Photo Hashtag</label><input type="text" id="hashtag" placeholder="#BrideAndGroom"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>RSVP</legend>
+      <div class="row">
+        <div><label for="rsvpDeadline">RSVP Deadline (text shown to guests)</label><input type="text" id="rsvpDeadline"></div>
+        <div><label for="rsvpEmail">Your Email (RSVPs are sent here)</label><input type="email" id="rsvpEmail"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Photos &amp; Music</legend>
+      <p class="sidebar-note" style="margin-top:0;">Pick replacement files below. They're only written to disk when you click "Save to my computer" — nothing uploads anywhere.</p>
+
+      <div class="file-row">
+        <img class="thumb" id="thumb-cover" src="images/cover.jpg" alt="">
+        <div class="meta"><div class="name">Cover photo</div><div class="hint">images/cover.jpg — wide, 1600×1000+</div></div>
+        <input type="file" accept="image/*" data-target="cover.jpg" data-thumb="thumb-cover">
+      </div>
+      <div class="file-row">
+        <img class="thumb" id="thumb-couple" src="images/couple.jpg" alt="">
+        <div class="meta"><div class="name">Couple photo</div><div class="hint">images/couple.jpg — square, shown as a circle</div></div>
+        <input type="file" accept="image/*" data-target="couple.jpg" data-thumb="thumb-couple">
+      </div>
+      <div class="file-row">
+        <img class="thumb" id="thumb-monogram" src="images/monogram.jpg" alt="">
+        <div class="meta"><div class="name">Curtain monogram</div><div class="hint">images/monogram.jpg — square, small circle</div></div>
+        <input type="file" accept="image/*" data-target="monogram.jpg" data-thumb="thumb-monogram">
+      </div>
+      <div class="file-row">
+        <img class="thumb" id="thumb-story" src="images/story.jpg" alt="">
+        <div class="meta"><div class="name">Our Story photo</div><div class="hint">images/story.jpg</div></div>
+        <input type="file" accept="image/*" data-target="story.jpg" data-thumb="thumb-story">
+      </div>
+      <div class="file-row">
+        <img class="thumb" id="thumb-ceremony" src="images/ceremony.jpg" alt="">
+        <div class="meta"><div class="name">Ceremony venue photo</div><div class="hint">images/ceremony.jpg</div></div>
+        <input type="file" accept="image/*" data-target="ceremony.jpg" data-thumb="thumb-ceremony">
+      </div>
+      <div class="file-row">
+        <img class="thumb" id="thumb-reception" src="images/reception.jpg" alt="">
+        <div class="meta"><div class="name">Reception venue photo</div><div class="hint">images/reception.jpg</div></div>
+        <input type="file" accept="image/*" data-target="reception.jpg" data-thumb="thumb-reception">
+      </div>
+      <div class="file-row">
+        <div class="thumb" style="display:flex;align-items:center;justify-content:center;font-size:20px;">♪</div>
+        <div class="meta"><div class="name">Background song</div><div class="hint">audio/song.mp3 — use a track you have rights to use</div></div>
+        <input type="file" accept="audio/*" data-target="song.mp3" data-audio="true">
+      </div>
+    </fieldset>
+
+  </form>
+</main>
+
+<div class="sidebar">
+  <h2>Live Preview</h2>
+  <div class="preview-card">
+    <h3 id="pv-names">Bride &amp; Groom</h3>
+    <div class="sub" id="pv-date">Month DD, YYYY — Venue</div>
+    <p id="pv-story">Your story preview will appear here as you type.</p>
+  </div>
+
+  <div id="save-status" class="status"></div>
+
+  <button type="button" class="btn-primary" id="save-to-folder">💾 Save to my Computer</button>
+  <button type="button" class="btn-secondary" id="download-json">⬇️ Download content.json Only</button>
+  <label for="import-json" class="btn-secondary" style="display:block; text-align:center;">📂 Import Existing content.json</label>
+  <input type="file" id="import-json" accept=".json" style="display:none;">
+
+  <p class="sidebar-note" id="fsa-note"></p>
+</div>
+</div>
+
+<script>
+const FIELD_IDS = [
+  "brideName","groomName","weddingMonth","weddingDay","weddingDayOfWeek","weddingYear",
+  "weddingTime","venueName","venueCity","ourStory","songTitle",
+  "ceremonyVenueName","ceremonyAddress","ceremonyMapsLink",
+  "receptionVenueName","receptionAddress","receptionMapsLink",
+  "amazonRegistryLink","bankName","bankAccount","bankHolder",
+  "zelleName","zelleContact","cashtag",
+  "dressNote","hashtag","rsvpDeadline","rsvpEmail"
+];
+
+const DEFAULTS = {
+  brideName: "BRIDE", groomName: "GROOM",
+  weddingDateISO: "2026-12-13T18:00:00",
+  weddingMonth: "MONTH", weddingDay: "DD", weddingDayOfWeek: "Day of week", weddingYear: "YYYY",
+  weddingTime: "6:00 PM", venueName: "Venue Name", venueCity: "Alvarado, Texas",
+  ourStory: "Write a few sentences about how you met, a memorable moment, and why you're excited to celebrate this next chapter together.",
+  songTitle: "Your Song Title",
+  ceremonyVenueName: "Ceremony Venue Name", ceremonyAddress: "Alvarado, Texas", ceremonyMapsLink: "#",
+  receptionVenueName: "Reception Venue Name", receptionAddress: "Alvarado, Texas", receptionMapsLink: "#",
+  itinerary: [
+    { icon: "💍", time: "6:00 PM", label: "Ceremony" },
+    { icon: "🥂", time: "8:30 PM", label: "Reception" },
+    { icon: "🍽️", time: "9:30 PM", label: "Dinner" },
+    { icon: "🎉", time: "10:30 PM", label: "Let's Celebrate!" }
+  ],
+  amazonRegistryLink: "#", bankName: "Bank Name", bankAccount: "Account Number", bankHolder: "Account Holder",
+  zelleName: "Zelle Name", zelleContact: "Zelle Phone or Email", cashtag: "$Cashtag",
+  dressNote: "Add any notes — e.g. colors to avoid, adults-only event, etc.",
+  hashtag: "#BrideAndGroom",
+  rsvpDeadline: "RSVP Deadline Date", rsvpEmail: "your-email@example.com"
+};
+
+let currentDirHandle = null; // set once the user picks a folder via File System Access API
+
+function isoToLocalInputValue(iso) {
+  // datetime-local inputs want "YYYY-MM-DDTHH:MM" in local time, no timezone
+  const d = new Date(iso);
+  if (isNaN(d)) return "";
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function fillForm(content) {
+  FIELD_IDS.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el && content[id] !== undefined) el.value = content[id];
+  });
+  if (content.weddingDateISO) {
+    document.getElementById("weddingDateISO").value = isoToLocalInputValue(content.weddingDateISO);
+  }
+  if (Array.isArray(content.itinerary)) {
+    content.itinerary.forEach((item, i) => {
+      const icon = document.getElementById(`itin-${i}-icon`);
+      const time = document.getElementById(`itin-${i}-time`);
+      const label = document.getElementById(`itin-${i}-label`);
+      if (icon) icon.value = item.icon || "";
+      if (time) time.value = item.time || "";
+      if (label) label.value = item.label || "";
+    });
+  }
+  updatePreview();
+}
+
+function formToContent() {
+  const content = {};
+  FIELD_IDS.forEach((id) => {
+    const el = document.getElementById(id);
+    content[id] = el ? el.value : "";
+  });
+  const dtVal = document.getElementById("weddingDateISO").value;
+  content.weddingDateISO = dtVal ? new Date(dtVal).toISOString().slice(0, 19) : DEFAULTS.weddingDateISO;
+  content.itinerary = [0,1,2,3].map((i) => ({
+    icon: document.getElementById(`itin-${i}-icon`).value,
+    time: document.getElementById(`itin-${i}-time`).value,
+    label: document.getElementById(`itin-${i}-label`).value,
+  }));
+  return content;
+}
+
+function updatePreview() {
+  const bride = document.getElementById("brideName").value || "Bride";
+  const groom = document.getElementById("groomName").value || "Groom";
+  const month = document.getElementById("weddingMonth").value || "Month";
+  const day = document.getElementById("weddingDay").value || "DD";
+  const year = document.getElementById("weddingYear").value || "YYYY";
+  const venue = document.getElementById("venueName").value || "Venue";
+  const city = document.getElementById("venueCity").value || "";
+  const story = document.getElementById("ourStory").value || "Your story preview will appear here as you type.";
+
+  document.getElementById("pv-names").textContent = `${bride} & ${groom}`;
+  document.getElementById("pv-date").textContent = `${month} ${day}, ${year} — ${venue}${city ? ", " + city : ""}`;
+  document.getElementById("pv-story").textContent = story;
+}
+
+document.getElementById("content-form").addEventListener("input", updatePreview);
+
+function showStatus(el, msg, type) {
+  el.className = "status " + type;
+  el.textContent = msg;
+}
+
+// --- Initial load: try fetching content.json (works once hosted or served locally) ---
+const loadStatus = document.getElementById("load-status");
+fetch("content.json")
+  .then((res) => { if (!res.ok) throw new Error(); return res.json(); })
+  .then((content) => {
+    fillForm(content);
+    showStatus(loadStatus, "Loaded your current content.json below.", "ok");
+  })
+  .catch(() => {
+    fillForm(DEFAULTS);
+    showStatus(loadStatus, "Couldn't auto-load content.json (normal if you opened this file directly). Showing defaults — use \"Import Existing content.json\" on the right if you've edited before.", "info");
+  });
+
+// --- Import content.json manually ---
+document.getElementById("import-json").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  file.text().then((text) => {
+    try {
+      const content = JSON.parse(text);
+      fillForm(content);
+      showStatus(loadStatus, "Imported " + file.name + ".", "ok");
+    } catch (err) {
+      showStatus(loadStatus, "That file isn't valid JSON.", "warn");
+    }
+  });
+});
+
+// --- Image / audio thumbnail previews ---
+document.querySelectorAll('input[type="file"][data-thumb]').forEach((input) => {
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    if (!file) return;
+    const thumb = document.getElementById(input.getAttribute("data-thumb"));
+    thumb.src = URL.createObjectURL(file);
+  });
+});
+
+// --- Save via File System Access API (Chrome/Edge) ---
+const fsaNote = document.getElementById("fsa-note");
+const saveStatus = document.getElementById("save-status");
+const supportsFSA = "showDirectoryPicker" in window;
+
+if (!supportsFSA) {
+  fsaNote.textContent = "Your browser doesn't support direct folder saving (this works in Chrome/Edge). Use Download + Import instead — see README.md.";
+  document.getElementById("save-to-folder").disabled = true;
+  document.getElementById("save-to-folder").style.opacity = "0.5";
+} else {
+  fsaNote.textContent = "\"Save to my Computer\" will ask you to pick your wedding-site folder once, then write content.json and any new photos/song directly into it.";
+}
+
+document.getElementById("save-to-folder").addEventListener("click", async () => {
+  try {
+    currentDirHandle = await window.showDirectoryPicker();
+
+    // Write content.json
+    const content = formToContent();
+    const jsonHandle = await currentDirHandle.getFileHandle("content.json", { create: true });
+    const jsonWritable = await jsonHandle.createWritable();
+    await jsonWritable.write(JSON.stringify(content, null, 2));
+    await jsonWritable.close();
+
+    // Write images
+    const imagesDir = await currentDirHandle.getDirectoryHandle("images", { create: true });
+    const imageInputs = document.querySelectorAll('input[type="file"][data-target]:not([data-audio])');
+    let filesWritten = 1;
+    for (const input of imageInputs) {
+      const file = input.files[0];
+      if (!file) continue;
+      const targetName = input.getAttribute("data-target");
+      const fileHandle = await imagesDir.getFileHandle(targetName, { create: true });
+      const writable = await fileHandle.createWritable();
+      await writable.write(file);
+      await writable.close();
+      filesWritten++;
+    }
+
+    // Write audio
+    const audioInput = document.querySelector('input[type="file"][data-audio]');
+    if (audioInput && audioInput.files[0]) {
+      const audioDir = await currentDirHandle.getDirectoryHandle("audio", { create: true });
+      const fileHandle = await audioDir.getFileHandle("song.mp3", { create: true });
+      const writable = await fileHandle.createWritable();
+      await writable.write(audioInput.files[0]);
+      await writable.close();
+      filesWritten++;
+    }
+
+    showStatus(saveStatus, `Saved! Updated content.json + ${filesWritten - 1} file(s). Refresh index.html to see your changes.`, "ok");
+  } catch (err) {
+    if (err.name === "AbortError") return; // user cancelled the picker
+    showStatus(saveStatus, "Couldn't save directly (" + err.message + "). Try Download instead.", "warn");
+  }
+});
+
+// --- Fallback: download content.json ---
+document.getElementById("download-json").addEventListener("click", () => {
+  const content = formToContent();
+  const blob = new Blob([JSON.stringify(content, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "content.json";
+  a.click();
+  URL.revokeObjectURL(url);
+  showStatus(saveStatus, "Downloaded content.json — replace the one in your wedding-site folder with this file. For photos/song, manually copy the files you selected above into images/ and audio/ using the filenames shown.", "info");
+});
+</script>
+</body>
+</html>
