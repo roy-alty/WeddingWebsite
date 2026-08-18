@@ -57,17 +57,15 @@ function openCurtains() {
 
   // Browsers require a user gesture to start audio — this click satisfies that.
   if (bgMusic) {
-    bgMusic.play().then(() => {
-      musicToggle.classList.add("spinning");
-      musicIcon.textContent = "♪";
-    }).catch(() => {
+    bgMusic.play().catch((err) => {
       // Autoplay blocked; user can press the music button manually.
+      console.warn("Could not autoplay audio/song.mp3 on curtain tap:", err);
     });
   }
 
   setTimeout(() => {
     curtainOverlay.classList.add("hidden");
-  }, 1200);
+  }, 1500);
 }
 
 if (curtainOverlay) {
@@ -77,13 +75,9 @@ if (curtainOverlay) {
 if (musicToggle && bgMusic) {
   musicToggle.addEventListener("click", () => {
     if (bgMusic.paused) {
-      bgMusic.play();
-      musicToggle.classList.add("spinning");
-      musicIcon.textContent = "♪";
+      bgMusic.play().catch((err) => console.warn("Could not play audio/song.mp3:", err));
     } else {
       bgMusic.pause();
-      musicToggle.classList.remove("spinning");
-      musicIcon.textContent = "❚❚";
     }
   });
 }
@@ -103,13 +97,9 @@ function formatTime(sec) {
 if (songPlayBtn && bgMusic) {
   songPlayBtn.addEventListener("click", () => {
     if (bgMusic.paused) {
-      bgMusic.play();
-      songPlayBtn.textContent = "❚❚";
-      musicToggle.classList.add("spinning");
+      bgMusic.play().catch((err) => console.warn("Could not play audio/song.mp3:", err));
     } else {
       bgMusic.pause();
-      songPlayBtn.textContent = "▶";
-      musicToggle.classList.remove("spinning");
     }
   });
 
@@ -119,26 +109,73 @@ if (songPlayBtn && bgMusic) {
   bgMusic.addEventListener("timeupdate", () => {
     songCurrent.textContent = formatTime(bgMusic.currentTime);
   });
-  bgMusic.addEventListener("play", () => { songPlayBtn.textContent = "❚❚"; });
-  bgMusic.addEventListener("pause", () => { songPlayBtn.textContent = "▶"; });
 }
 
-// RSVP: zero-setup mailto handler. Replace with a Formspree action for a
-// nicer in-page experience (see README.md).
-function sendViaEmail(e) {
+// Single source of truth for play/pause UI across all three controls
+// (curtain autoplay, floating button, inline widget) — driven by the
+// audio element's real state, so the UI never claims it's playing when
+// it isn't (e.g. autoplay silently blocked by the browser).
+if (bgMusic) {
+  bgMusic.addEventListener("play", () => {
+    musicToggle?.classList.add("spinning");
+    if (musicIcon) musicIcon.textContent = "♪";
+    if (songPlayBtn) songPlayBtn.textContent = "❚❚";
+  });
+  bgMusic.addEventListener("pause", () => {
+    musicToggle?.classList.remove("spinning");
+    if (musicIcon) musicIcon.textContent = "❚❚";
+    if (songPlayBtn) songPlayBtn.textContent = "▶";
+  });
+  bgMusic.addEventListener("error", () => {
+    console.error(
+      "audio/song.mp3 failed to load — check the file exists at audio/song.mp3 and is a valid audio file.",
+      bgMusic.error
+    );
+  });
+}
+
+// RSVP: submits directly to RSVP_EMAIL via FormSubmit.co (free, no signup,
+// no guest email app needed) — see the comment on the form in index.html
+// for the one-time activation step this requires.
+async function sendRSVP(e) {
   e.preventDefault();
   const form = e.target;
+  const statusEl = document.getElementById("rsvp-status");
+  const submitBtn = form.querySelector("button[type=submit]");
+
   const name = form.name.value;
   const attending = form.attending.value;
   const guests = form.guests.value;
   const message = form.message.value;
 
-  const subject = encodeURIComponent(`RSVP from ${name}`);
-  const body = encodeURIComponent(
-    `Name: ${name}\nAttending: ${attending}\nNumber of Guests: ${guests}\nMessage: ${message}`
-  );
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Sending…";
+  statusEl.textContent = "";
+  statusEl.classList.remove("success", "error");
 
-  window.location.href = `mailto:${RSVP_EMAIL}?subject=${subject}&body=${body}`;
+  try {
+    const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(RSVP_EMAIL)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        _subject: `RSVP from ${name}`,
+        Name: name,
+        Attending: attending,
+        "Number of Guests": guests,
+        Message: message,
+      }),
+    });
+    if (!res.ok) throw new Error("Request failed");
+
+    form.hidden = true;
+    statusEl.textContent = "🎉 Thank you! Your RSVP has been sent.";
+    statusEl.classList.add("success");
+  } catch (err) {
+    statusEl.textContent = `Something went wrong sending this automatically — please email us directly at ${RSVP_EMAIL}.`;
+    statusEl.classList.add("error");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Send RSVP";
+  }
   return false;
 }
 
@@ -181,8 +218,8 @@ function applyContent(content) {
   if (ceremonyLink && content.ceremonyMapsLink) ceremonyLink.href = content.ceremonyMapsLink;
   const receptionLink = document.getElementById("reception-maps-link");
   if (receptionLink && content.receptionMapsLink) receptionLink.href = content.receptionMapsLink;
-  const amazonLink = document.getElementById("amazon-registry-link");
-  if (amazonLink && content.amazonRegistryLink) amazonLink.href = content.amazonRegistryLink;
+  const preweddingLink = document.getElementById("prewedding-maps-link");
+  if (preweddingLink && content.preWeddingMapsLink) preweddingLink.href = content.preWeddingMapsLink;
 
   const cashappLink = document.getElementById("cashapp-link");
   if (cashappLink && content.cashtag) {
@@ -210,6 +247,25 @@ function applyContent(content) {
 
   // Hide the "edit me" hint tags now that real content is in place
   document.body.classList.add("content-loaded");
+}
+
+/* ---------- Scroll reveal (fade + rise into view) ---------- */
+const revealEls = document.querySelectorAll(".reveal");
+if (revealEls.length && "IntersectionObserver" in window) {
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+  );
+  revealEls.forEach((el) => revealObserver.observe(el));
+} else {
+  revealEls.forEach((el) => el.classList.add("visible"));
 }
 
 fetch("content.json")

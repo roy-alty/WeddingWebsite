@@ -222,6 +222,9 @@ button {
         <div><label for="venueName">Venue Name</label><input type="text" id="venueName"></div>
         <div><label for="venueCity">City / Region</label><input type="text" id="venueCity"></div>
       </div>
+      <div class="row single">
+        <div><label for="inviteLine">Invite Line (shown on the cover, under "We Do")</label><input type="text" id="inviteLine"></div>
+      </div>
       <p class="sidebar-note">Keep the month/day/year fields consistent with the date &amp; time above — they're shown separately for styling reasons.</p>
     </fieldset>
 
@@ -254,6 +257,24 @@ button {
     </fieldset>
 
     <fieldset>
+      <legend>Pre-Wedding Celebration</legend>
+      <div class="row">
+        <div><label for="preWeddingDate">Date</label><input type="text" id="preWeddingDate" placeholder="Saturday, October 24, 2026"></div>
+        <div><label for="preWeddingVenueName">Venue Name</label><input type="text" id="preWeddingVenueName"></div>
+      </div>
+      <div class="row single">
+        <div><label for="preWeddingAddress">Address</label><input type="text" id="preWeddingAddress"></div>
+      </div>
+      <div class="row single">
+        <div><label for="preWeddingMapsLink">Google Maps Link</label><input type="url" id="preWeddingMapsLink" placeholder="https://maps.app.goo.gl/..."></div>
+      </div>
+      <div class="row single">
+        <div><label for="preWeddingDressNote">Dress Note</label><input type="text" id="preWeddingDressNote" placeholder="Optional: African Kitenge / Ankara warmly welcomed."></div>
+      </div>
+      <p class="sidebar-note">Shown as a small standalone section on the site, separate from the main Ceremony/Reception cards above.</p>
+    </fieldset>
+
+    <fieldset>
       <legend>Itinerary</legend>
       <div class="itin-row">
         <input type="text" id="itin-0-icon" title="Icon">
@@ -279,23 +300,24 @@ button {
     </fieldset>
 
     <fieldset>
-      <legend>Gift Registry</legend>
+      <legend>Wedding Contributions</legend>
       <div class="row single">
-        <div><label for="amazonRegistryLink">Amazon Registry Link</label><input type="url" id="amazonRegistryLink"></div>
+        <div><label for="contributionsIntro">Intro Text</label><textarea id="contributionsIntro" rows="3"></textarea></div>
       </div>
       <div class="row">
-        <div><label for="bankName">Bank Name</label><input type="text" id="bankName"></div>
-        <div><label for="bankAccount">Account Number</label><input type="text" id="bankAccount"></div>
-      </div>
-      <div class="row single">
-        <div><label for="bankHolder">Account Holder</label><input type="text" id="bankHolder"></div>
+        <div><label for="coupleContribution">Couple Contribution</label><input type="text" id="coupleContribution" placeholder="$300"></div>
+        <div><label for="singleContribution">Single Contribution</label><input type="text" id="singleContribution" placeholder="$200"></div>
       </div>
       <div class="row">
-        <div><label for="zelleName">Zelle Name</label><input type="text" id="zelleName"></div>
-        <div><label for="zelleContact">Zelle Phone or Email</label><input type="text" id="zelleContact"></div>
+        <div><label for="cashappTreasurer">Cash App Treasurer</label><input type="text" id="cashappTreasurer"></div>
+        <div><label for="cashappPhone">Cash App Phone</label><input type="text" id="cashappPhone"></div>
       </div>
       <div class="row single">
         <div><label for="cashtag">Cash App Cashtag (e.g. $YourName)</label><input type="text" id="cashtag" placeholder="$YourName"></div>
+      </div>
+      <div class="row">
+        <div><label for="zelleName">Zelle Treasurer</label><input type="text" id="zelleName"></div>
+        <div><label for="zelleContact">Zelle Phone or Email</label><input type="text" id="zelleContact"></div>
       </div>
     </fieldset>
 
@@ -311,9 +333,19 @@ button {
 
     <fieldset>
       <legend>RSVP</legend>
+      <div class="row single">
+        <div><label for="rsvpIntro">RSVP Intro (shown above the deadline)</label><textarea id="rsvpIntro" rows="2"></textarea></div>
+      </div>
       <div class="row">
         <div><label for="rsvpDeadline">RSVP Deadline (text shown to guests)</label><input type="text" id="rsvpDeadline"></div>
         <div><label for="rsvpEmail">Your Email (RSVPs are sent here)</label><input type="email" id="rsvpEmail"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Footer</legend>
+      <div class="row single">
+        <div><label for="footerNote">Footer Note (shown after the date, e.g. "Thank you for...")</label><input type="text" id="footerNote"></div>
       </div>
     </fieldset>
 
@@ -383,12 +415,14 @@ button {
 <script>
 const FIELD_IDS = [
   "brideName","groomName","weddingMonth","weddingDay","weddingDayOfWeek","weddingYear",
-  "weddingTime","venueName","venueCity","ourStory","songTitle",
+  "weddingTime","venueName","venueCity","inviteLine","ourStory","songTitle",
   "ceremonyVenueName","ceremonyAddress","ceremonyMapsLink",
   "receptionVenueName","receptionAddress","receptionMapsLink",
-  "amazonRegistryLink","bankName","bankAccount","bankHolder",
-  "zelleName","zelleContact","cashtag",
-  "dressNote","hashtag","rsvpDeadline","rsvpEmail"
+  "preWeddingDate","preWeddingVenueName","preWeddingAddress","preWeddingMapsLink","preWeddingDressNote",
+  "contributionsIntro","coupleContribution","singleContribution",
+  "cashappTreasurer","cashappPhone","cashtag",
+  "zelleName","zelleContact",
+  "dressNote","hashtag","rsvpIntro","rsvpDeadline","rsvpEmail","footerNote"
 ];
 
 const DEFAULTS = {
@@ -396,21 +430,29 @@ const DEFAULTS = {
   weddingDateISO: "2026-12-13T18:00:00",
   weddingMonth: "MONTH", weddingDay: "DD", weddingDayOfWeek: "Day of week", weddingYear: "YYYY",
   weddingTime: "6:00 PM", venueName: "Venue Name", venueCity: "Alvarado, Texas",
+  inviteLine: "We invite you to celebrate our wedding",
   ourStory: "Write a few sentences about how you met, a memorable moment, and why you're excited to celebrate this next chapter together.",
   songTitle: "Your Song Title",
   ceremonyVenueName: "Ceremony Venue Name", ceremonyAddress: "Alvarado, Texas", ceremonyMapsLink: "#",
   receptionVenueName: "Reception Venue Name", receptionAddress: "Alvarado, Texas", receptionMapsLink: "#",
+  preWeddingDate: "Pre-Wedding Date", preWeddingVenueName: "Pre-Wedding Venue Name",
+  preWeddingAddress: "Alvarado, Texas", preWeddingMapsLink: "#",
+  preWeddingDressNote: "Optional: African Kitenge / Ankara warmly welcomed.",
   itinerary: [
     { icon: "💍", time: "6:00 PM", label: "Ceremony" },
     { icon: "🥂", time: "8:30 PM", label: "Reception" },
     { icon: "🍽️", time: "9:30 PM", label: "Dinner" },
     { icon: "🎉", time: "10:30 PM", label: "Let's Celebrate!" }
   ],
-  amazonRegistryLink: "#", bankName: "Bank Name", bankAccount: "Account Number", bankHolder: "Account Holder",
-  zelleName: "Zelle Name", zelleContact: "Zelle Phone or Email", cashtag: "$Cashtag",
+  contributionsIntro: "Your presence at our wedding is the greatest gift of all. Should you wish to honor us further, here are a few options.",
+  coupleContribution: "$300", singleContribution: "$200",
+  cashappTreasurer: "Treasurer Name", cashappPhone: "Phone Number", cashtag: "$Cashtag",
+  zelleName: "Zelle Name", zelleContact: "Zelle Phone or Email",
   dressNote: "Add any notes — e.g. colors to avoid, adults-only event, etc.",
   hashtag: "#BrideAndGroom",
-  rsvpDeadline: "RSVP Deadline Date", rsvpEmail: "your-email@example.com"
+  rsvpIntro: "Your presence means the world to us — please let us know if you can join.",
+  rsvpDeadline: "RSVP Deadline Date", rsvpEmail: "your-email@example.com",
+  footerNote: "Thank you for being part of our story"
 };
 
 let currentDirHandle = null; // set once the user picks a folder via File System Access API

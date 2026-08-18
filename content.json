@@ -1,43 +1,54 @@
 {
-  "brideName": "BRIDE",
-  "groomName": "GROOM",
+  "brideName": "Daphine Ochoki",
+  "groomName": "Adams Obaga Nyamwaro",
   "weddingDateISO": "2026-12-13T18:00:00",
-  "weddingMonth": "MONTH",
-  "weddingDay": "DD",
-  "weddingDayOfWeek": "Day of week",
-  "weddingYear": "YYYY",
+  "weddingMonth": "December",
+  "weddingDay": "13",
+  "weddingDayOfWeek": "Sunday",
+  "weddingYear": "2026",
   "weddingTime": "6:00 PM",
-  "venueName": "Venue Name",
-  "venueCity": "Alvarado, Texas",
+  "venueName": "To Be Announced",
+  "venueCity": "Dallas–Fort Worth (DFW) Area, Texas",
 
-  "ourStory": "Write a few sentences about how you met, a memorable moment, and why you're excited to celebrate this next chapter together.",
-  "songTitle": "Your Song Title",
+  "ourStory": "From the very beginning, Daphine and Adams knew their story was being written by a greater hand. Through laughter, prayer, and everyday moments that slowly became forever, their friendship blossomed into a love rooted in faith and gratitude to God. \"He has made everything beautiful in its time\" (Ecclesiastes 3:11) has become more than a verse to them — it's the story of how two hearts found their perfect season. Now, surrounded by family and friends, they can't wait to begin this next beautiful chapter together as husband and wife.",
+  "songTitle": "All My Life — K-Ci & JoJo",
 
-  "ceremonyVenueName": "Ceremony Venue Name",
-  "ceremonyAddress": "Alvarado, Texas",
+  "ceremonyVenueName": "To Be Announced",
+  "ceremonyAddress": "Dallas–Fort Worth (DFW) Area, Texas",
   "ceremonyMapsLink": "#",
-  "receptionVenueName": "Reception Venue Name",
-  "receptionAddress": "Alvarado, Texas",
+  "receptionVenueName": "To Be Announced",
+  "receptionAddress": "Dallas–Fort Worth (DFW) Area, Texas",
   "receptionMapsLink": "#",
 
+  "preWeddingDate": "Saturday, October 24, 2026",
+  "preWeddingVenueName": "Mt Zion Fellowship SDA Church",
+  "preWeddingAddress": "4217 County Rd 401C, Alvarado, TX 76009",
+  "preWeddingMapsLink": "https://www.google.com/maps/search/?api=1&query=Mt+Zion+Fellowship+SDA+Church%2C+4217+County+Rd+401C%2C+Alvarado%2C+TX+76009",
+  "preWeddingDressNote": "Optional: African Kitenge / Ankara warmly welcomed.",
+
   "itinerary": [
-    { "icon": "💍", "time": "6:00 PM", "label": "Ceremony" },
-    { "icon": "🥂", "time": "8:30 PM", "label": "Reception" },
-    { "icon": "🍽️", "time": "9:30 PM", "label": "Dinner" },
-    { "icon": "🎉", "time": "10:30 PM", "label": "Let's Celebrate!" }
+    { "icon": "💍", "time": "TBA", "label": "Ceremony" },
+    { "icon": "🥂", "time": "TBA", "label": "Reception" },
+    { "icon": "🍽️", "time": "TBA", "label": "Dinner" },
+    { "icon": "🎉", "time": "TBA", "label": "Let's Celebrate!" }
   ],
 
-  "amazonRegistryLink": "#",
-  "bankName": "Bank Name",
-  "bankAccount": "Account Number",
-  "bankHolder": "Account Holder",
-  "zelleName": "Zelle Name",
-  "zelleContact": "Zelle Phone or Email",
-  "cashtag": "$Cashtag",
+  "contributionsIntro": "As preparations continue, invited guests are kindly encouraged to make their wedding contributions early — this helps secure each guest's seat and enables the planning committee to make arrangements in a timely manner. For family and friends who are unable to attend, your love, prayers, and financial support are sincerely appreciated.",
+  "coupleContribution": "$300",
+  "singleContribution": "$200",
+  "cashappTreasurer": "Cornelius Ong'era",
+  "cashtag": "$2014014293",
+  "cashappPhone": "+1 (201) 401-4293",
+  "zelleName": "Aggie Nyauncho",
+  "zelleContact": "612-501-7182",
 
-  "dressNote": "Add any notes — e.g. colors to avoid, adults-only event, etc.",
-  "hashtag": "#BrideAndGroom",
+  "dressNote": "Wedding Ceremony attire: Green with a Touch of Gold. Shades of green — from deep emerald to soft sage — paired with gold accents, with ivory/white as an elegant accent too.",
+  "hashtag": "#daphineandAdams",
 
-  "rsvpDeadline": "RSVP Deadline Date",
-  "rsvpEmail": "your-email@example.com"
+  "inviteLine": "With joyful hearts and gratitude to God, we invite you to celebrate our wedding",
+  "rsvpIntro": "Your presence will be a great honor as family and friends gather to celebrate God's faithfulness, His love, and the beginning of our new chapter together.",
+  "footerNote": "Thank you for your love, prayers, generosity, and support",
+
+  "rsvpDeadline": "October 1, 2026",
+  "rsvpEmail": "daphineadamso@gmail.com"
 }

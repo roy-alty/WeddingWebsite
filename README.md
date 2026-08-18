@@ -91,18 +91,30 @@ turn this into a service for other clients later.
 Browsers block audio from autoplaying without a click, which is why the
 curtain-tap is used to start it — this is standard behavior, not a bug.
 
-## 5. RSVP form — two options
+## 5. RSVP form
 
-**Zero setup (default):** the form opens the guest's email app pre-filled
-with their answers, addressed to the `rsvpEmail` you set in the editor (or
-`content.json`). Works immediately, no signup.
+The form submits directly to the `rsvpEmail` you set in the editor (or
+`content.json`) via [FormSubmit.co](https://formsubmit.co) — a free
+form-to-email relay. No signup, no guest email app: the guest clicks
+"Send RSVP" and sees an inline "Thank you" message on the page, and the
+answers land in your inbox. See `sendRSVP()` in `script.js` and the form
+comment in `index.html`.
 
-**Nicer in-page experience (optional):** sign up free at
-[formspree.io](https://formspree.io) (50 submissions/month free), create a
-form, and:
-1. In `index.html`, change `<form class="rsvp-form" id="rsvp-form" onsubmit="return sendViaEmail(event)">`
-   to `<form class="rsvp-form" action="https://formspree.io/f/YOUR_ID" method="POST">`
-2. Delete the `onsubmit` attribute and the `sendViaEmail` function in `script.js`
+**Important — one-time activation:** the first time a submission is sent
+to a given `rsvpEmail`, FormSubmit emails that address an activation link
+instead of delivering the RSVP. **Right after you deploy, submit the form
+yourself once** (any test values) and click "Activate Form" in the email
+that arrives — after that, every real guest submission is delivered
+automatically. Skipping this step means early guest RSVPs are silently
+dropped.
+
+**Alternative:** if you'd rather use [formspree.io](https://formspree.io)
+(50 free submissions/month, a dashboard of responses) instead of
+FormSubmit, sign up, create a form, then in `index.html` change
+`<form class="rsvp-form" id="rsvp-form" onsubmit="return sendRSVP(event)">`
+to `<form class="rsvp-form" action="https://formspree.io/f/YOUR_ID" method="POST">`
+and delete the `onsubmit` attribute (the `sendRSVP` function in
+`script.js` is then unused and can stay or be removed).
 
 ## 6. Host it for free
 
