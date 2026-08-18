@@ -334,18 +334,44 @@ body.content-loaded .edit-hint { display: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  background: linear-gradient(rgba(20,17,14,0.5), rgba(20,17,14,0.55)), url('images/cover.jpg') center/cover no-repeat;
   color: #fff;
-  padding: 40px 20px;
+  overflow: hidden;
+  background: var(--ink);
+}
+/* Enlarged, blurred backdrop of the same cover photo — visible on the
+   sides once the viewport is wider than .cover-inner's max-width. */
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: -30px;
+  background: url('images/cover.jpg') center/cover no-repeat;
+  filter: blur(45px) brightness(0.55) saturate(1.1);
+  transform: scale(1.12);
+  z-index: 0;
+}
+.cover-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(20,17,14,0.32) 0%, rgba(20,17,14,0.32) 50%, rgba(20,17,14,0.8) 100%), url('images/cover.jpg') center/cover no-repeat;
+  padding: 60px 24px;
+  box-shadow: 0 0 90px 12px rgba(0,0,0,0.55);
 }
 .cover-inner .eyebrow { color: var(--gold-pale); }
 .cover h1 {
-  font-size: 68px;
+  font-size: 46px;
   color: #fff;
   margin: 10px 0 22px;
   letter-spacing: 1px;
   font-weight: 400;
+  line-height: 1.15;
   text-shadow: 0 0 24px rgba(249,231,200,0.35);
 }
 .cover h1 .amp {
@@ -398,6 +424,7 @@ body.content-loaded .edit-hint { display: none; }
 }
 .scroll-cue {
   position: absolute;
+  z-index: 2;
   bottom: 26px;
   left: 50%;
   transform: translateX(-50%);
