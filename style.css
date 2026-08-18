@@ -297,6 +297,31 @@ body.content-loaded .edit-hint { display: none; }
   box-shadow: 0 6px 16px rgba(53,48,46,0.35);
 }
 #music-toggle.spinning #music-icon { display: inline-block; animation: spin 4s linear infinite; }
+
+.floating-rsvp {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
+  z-index: 500;
+  display: inline-block;
+  background: linear-gradient(160deg, var(--gold-bright), var(--gold-deep));
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 13px 22px;
+  border-radius: 30px;
+  box-shadow: 0 6px 16px rgba(53,48,46,0.35);
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease;
+}
+.floating-rsvp:hover { box-shadow: 0 8px 20px rgba(53,48,46,0.45); }
+.floating-rsvp.hide {
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+}
 @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
 
 .song-widget {

@@ -30,6 +30,11 @@
   <span id="music-icon">♪</span>
 </button>
 
+<!-- Floating RSVP button — stays visible while scrolling, hides once the
+     RSVP section itself is on screen (see the IntersectionObserver in
+     script.js). -->
+<a href="#rsvp-section" id="floating-rsvp" class="floating-rsvp">RSVP</a>
+
 <!-- ============ COVER ============ -->
 <section class="cover">
   <div class="cover-inner">
@@ -100,13 +105,13 @@
       <img src="images/ceremony.jpg" alt="Ceremony venue">
       <h3>Ceremony</h3>
       <div class="addr"><span data-field="ceremonyVenueName">[Ceremony Venue Name]</span><br><span data-field="ceremonyAddress">Alvarado, Texas</span> <span class="edit-hint">edit address</span></div>
-      <a href="#" id="ceremony-maps-link" target="_blank">Open in Google Maps</a>
+      <a href="#" id="ceremony-maps-link" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
     </div>
     <div class="loc-card">
       <img src="images/reception.jpg" alt="Reception venue">
       <h3>Reception</h3>
       <div class="addr"><span data-field="receptionVenueName">[Reception Venue Name]</span><br><span data-field="receptionAddress">Alvarado, Texas</span> <span class="edit-hint">edit address</span></div>
-      <a href="#" id="reception-maps-link" target="_blank">Open in Google Maps</a>
+      <a href="#" id="reception-maps-link" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
     </div>
   </div>
 </section>
@@ -119,7 +124,7 @@
   <div class="loc-card prewedding-card reveal">
     <h3 data-field="preWeddingDate">[Pre-Wedding Date]</h3>
     <div class="addr"><span data-field="preWeddingVenueName">[Pre-Wedding Venue]</span><br><span data-field="preWeddingAddress">[Pre-Wedding Address]</span> <span class="edit-hint">edit address</span></div>
-    <a href="#" id="prewedding-maps-link" target="_blank">Open in Google Maps</a>
+    <a href="#" id="prewedding-maps-link" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
     <p class="dresscode-note" data-field="preWeddingDressNote">[Pre-wedding dress note]</p>
   </div>
 </section>
@@ -282,7 +287,7 @@
         <div>Cashtag: <span data-field="cashtag">[$Cashtag]</span></div>
         <div>Phone: <span data-field="cashappPhone">[Phone]</span></div>
       </div>
-      <p><a href="#" id="cashapp-link" target="_blank">Open Cash App</a></p>
+      <p><a href="#" id="cashapp-link" target="_blank" rel="noopener noreferrer">Open Cash App</a></p>
       <span class="edit-hint">edit Cash App details</span>
     </div>
     <div class="registry-card">

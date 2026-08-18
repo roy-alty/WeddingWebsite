@@ -268,6 +268,21 @@ if (revealEls.length && "IntersectionObserver" in window) {
   revealEls.forEach((el) => el.classList.add("visible"));
 }
 
+/* ---------- Floating RSVP button: hide once the real RSVP section is on screen ---------- */
+const floatingRsvp = document.getElementById("floating-rsvp");
+const rsvpSection = document.getElementById("rsvp-section");
+if (floatingRsvp && rsvpSection && "IntersectionObserver" in window) {
+  const rsvpVisibilityObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        floatingRsvp.classList.toggle("hide", entry.isIntersecting);
+      });
+    },
+    { threshold: 0.1 }
+  );
+  rsvpVisibilityObserver.observe(rsvpSection);
+}
+
 fetch("content.json")
   .then((res) => {
     if (!res.ok) throw new Error("content.json not found");
