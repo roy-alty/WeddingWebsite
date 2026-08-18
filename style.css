@@ -49,17 +49,18 @@ h1, h2, h3 {
 
 a { color: var(--green-deep); text-decoration: none; }
 
+/* Every section's content is capped to one narrow, phone-width column —
+   matching a "story"-style invite rather than a wide desktop page. */
 .section {
-  max-width: 900px;
+  max-width: 430px;
   margin: 0 auto;
-  padding: 90px 24px;
+  padding: 64px 24px;
   text-align: center;
 }
 
 .section + .section { border-top: 1px solid var(--line); }
 
-/* Narrower "invitation card" column for short, text-led sections. */
-.section-narrow { max-width: 600px; }
+.section-narrow { max-width: 430px; }
 
 /* Soft photographic backdrop (blurred + tinted) behind a section, in
    place of a flat color — used for a few text-led sections. The photo
@@ -353,7 +354,7 @@ body.content-loaded .edit-hint { display: none; }
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 480px;
+  max-width: 430px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -517,12 +518,11 @@ body.content-loaded .edit-hint { display: none; }
 /* ---------- Locations ---------- */
 .locations-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 30px;
   margin-top: 30px;
   text-align: left;
 }
-@media (max-width: 640px) { .locations-grid { grid-template-columns: 1fr; } }
 .loc-card {
   background: var(--paper);
   border: 1px solid var(--line);
@@ -680,7 +680,7 @@ body.content-loaded .edit-hint { display: none; }
   z-index: 1;
   display: flex;
   justify-content: center;
-  gap: 70px;
+  gap: 40px;
   flex-wrap: wrap;
   margin-top: 20px;
 }
