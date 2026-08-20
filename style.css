@@ -433,18 +433,18 @@ body.content-loaded .edit-hint { display: none; }
   display: inline-flex;
   gap: 22px;
   align-items: baseline;
-  border-top: 1px solid rgba(249,231,200,0.5);
-  border-bottom: 1px solid rgba(249,231,200,0.5);
+  background: #fff;
+  border-radius: var(--radius);
   padding: 18px 30px;
   font-family: 'Playfair Display', serif;
 }
-.cover .date-block .big { font-size: 42px; color: #fff; }
+.cover .date-block .big { font-size: 42px; color: var(--green-deep); }
 .cover .date-block > div > div:last-child:not(.big) {
   font-family: 'Poppins', sans-serif;
   font-size: 11px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--gold-pale);
+  color: var(--gold-deep);
 }
 .cover .location-line {
   margin-top: 22px;
@@ -618,6 +618,8 @@ body.content-loaded .edit-hint { display: none; }
 
 /* ---------- Itinerary ---------- */
 .itinerary { background: #fff; }
+.dresscode { background: #fff; }
+.rsvp { background: #fff; }
 .itinerary-list {
   display: flex;
   justify-content: center;
@@ -658,7 +660,7 @@ body.content-loaded .edit-hint { display: none; }
 }
 
 /* ---------- Travel Guide ---------- */
-.travel-guide { background: var(--blush); text-align: left; }
+.travel-guide { background: #fff; text-align: left; }
 .travel-guide .section-inner { max-width: 780px; margin: 0 auto; }
 .travel-guide h2.title, .travel-guide > .eyebrow { text-align: center; }
 .travel-guide .intro { text-align: center; margin-bottom: 30px; }
