@@ -491,7 +491,7 @@ body.content-loaded .edit-hint { display: none; }
 }
 
 /* ---------- Countdown ---------- */
-.countdown { background: var(--blush); }
+.countdown { background: #fff; }
 .countdown-heading { margin-bottom: 30px; }
 .countdown-heading .the {
   display: block;
@@ -617,7 +617,7 @@ body.content-loaded .edit-hint { display: none; }
 .prewedding-card .dresscode-note { margin-top: 16px; }
 
 /* ---------- Itinerary ---------- */
-.itinerary { background: var(--blush); }
+.itinerary { background: #fff; }
 .itinerary-list {
   display: flex;
   justify-content: center;
