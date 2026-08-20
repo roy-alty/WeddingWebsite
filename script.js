@@ -10,6 +10,23 @@ let RSVP_EMAIL = "your-email@example.com";
 
 /* ========================================================= */
 
+// Lazily creates a Supabase client from the credentials in
+// supabase-config.js, or returns null if they haven't been filled in
+// yet (or the supabase-js library didn't load). Callers should treat a
+// null return as "Supabase isn't set up — skip it", not an error.
+let _sbClient;
+function getSupabase() {
+  if (_sbClient !== undefined) return _sbClient;
+  const url = window.SUPABASE_URL;
+  const key = window.SUPABASE_ANON_KEY;
+  if (!url || !key || !window.supabase) {
+    _sbClient = null;
+  } else {
+    _sbClient = window.supabase.createClient(url, key);
+  }
+  return _sbClient;
+}
+
 function updateCountdown() {
   const target = new Date(WEDDING_DATE).getTime();
   const now = new Date().getTime();
@@ -152,6 +169,25 @@ async function sendRSVP(e) {
   submitBtn.textContent = "Sending…";
   statusEl.textContent = "";
   statusEl.classList.remove("success", "error");
+
+  // Save to Supabase (if configured) independently of the email below —
+  // this runs regardless of whether the email step succeeds, fails, or
+  // is slow, so admin.html always gets the RSVP even if, say, the email
+  // relay is down or (when previewing via file://) blocked by the
+  // browser.
+  const sb = getSupabase();
+  if (sb) {
+    sb.from("rsvps")
+      .insert({
+        name,
+        attending,
+        guest_count: Number(guests) || 1,
+        message,
+      })
+      .then(({ error }) => {
+        if (error) console.error("Supabase RSVP insert failed:", error);
+      });
+  }
 
   try {
     const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(RSVP_EMAIL)}`, {

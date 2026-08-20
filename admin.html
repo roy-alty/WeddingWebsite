@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Wedding Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700&family=Playfair+Display:ital,wght@0,700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="admin.css?v=1">
+</head>
+<body class="admin-body">
+
+<!-- Shown if supabase-config.js hasn't been filled in yet. -->
+<div id="not-configured" hidden>
+  <h1 style="font-family:'Playfair Display',serif;color:var(--green-deep);margin-bottom:10px;">Not set up yet</h1>
+  <p>
+    This admin page needs a Supabase project connected before it can show
+    anything. Fill in <code>SUPABASE_URL</code> and
+    <code>SUPABASE_ANON_KEY</code> in <code>supabase-config.js</code>,
+    and make sure you've run <code>supabase/schema.sql</code> in your
+    project's SQL Editor. See that file's comments for step-by-step
+    instructions.
+  </p>
+</div>
+
+<!-- Login gate -->
+<div id="login-view" hidden>
+  <h1>Wedding Admin</h1>
+  <p>Sign in with the admin account you created in Supabase.</p>
+  <form id="login-form">
+    <input type="email" id="login-email" placeholder="Email" required autocomplete="username">
+    <input type="password" id="login-password" placeholder="Password" required autocomplete="current-password">
+    <button type="submit" class="btn">Sign In</button>
+  </form>
+  <div id="login-status"></div>
+</div>
+
+<!-- Main dashboard, shown once logged in -->
+<div id="dashboard-view" hidden>
+  <div class="admin-header">
+    <h1>Wedding Admin</h1>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <span class="who" id="who-label"></span>
+      <button class="btn secondary" id="logout-btn">Log Out</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="rsvps">RSVPs</button>
+    <button class="tab-btn" data-tab="seating">Seating</button>
+    <button class="tab-btn" data-tab="money">Gifts / Money</button>
+  </div>
+
+  <!-- ---------- RSVPs ---------- -->
+  <div class="tab-panel active" id="tab-rsvps">
+    <div class="stat-row">
+      <div class="stat-card"><div class="num" id="stat-responses">0</div><div class="label">Responses</div></div>
+      <div class="stat-card"><div class="num" id="stat-attending">0</div><div class="label">Attending</div></div>
+      <div class="stat-card"><div class="num" id="stat-declined">0</div><div class="label">Declined</div></div>
+      <div class="stat-card"><div class="num" id="stat-headcount">0</div><div class="label">Total Headcount</div></div>
+    </div>
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Name</th><th>Attending?</th><th>Guests</th><th>Message</th><th>Submitted</th><th></th></tr>
+        </thead>
+        <tbody id="rsvps-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ---------- Seating ---------- -->
+  <div class="tab-panel" id="tab-seating">
+    <form class="add-form" id="seating-form">
+      <div class="field"><label for="seat-guest">Guest name</label><input id="seat-guest" required></div>
+      <div class="field"><label for="seat-table">Table #</label><input id="seat-table" required></div>
+      <div class="field"><label for="seat-count">Seats</label><input id="seat-count" type="number" min="1" value="1" style="width:70px;"></div>
+      <div class="field"><label for="seat-notes">Notes</label><input id="seat-notes" placeholder="e.g. vegetarian, wheelchair access"></div>
+      <button type="submit" class="btn">Add</button>
+    </form>
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Table</th><th>Guest</th><th>Seats</th><th>Notes</th><th></th></tr>
+        </thead>
+        <tbody id="seating-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ---------- Contributions / Money ---------- -->
+  <div class="tab-panel" id="tab-money">
+    <div class="stat-row">
+      <div class="stat-card"><div class="num" id="stat-total">$0</div><div class="label">Total Received</div></div>
+      <div class="stat-card"><div class="num" id="stat-count">0</div><div class="label">Gifts Logged</div></div>
+    </div>
+    <form class="add-form" id="money-form">
+      <div class="field"><label for="money-name">From</label><input id="money-name" required></div>
+      <div class="field"><label for="money-amount">Amount</label><input id="money-amount" type="number" min="0" step="0.01" required style="width:100px;"></div>
+      <div class="field">
+        <label for="money-method">Method</label>
+        <select id="money-method">
+          <option>Zelle</option>
+          <option>Cash App</option>
+          <option>Cash</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label for="money-date">Date</label><input id="money-date" type="date"></div>
+      <div class="field"><label for="money-note">Note</label><input id="money-note"></div>
+      <button type="submit" class="btn">Add</button>
+    </form>
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>From</th><th>Amount</th><th>Method</th><th>Date</th><th>Note</th><th></th></tr>
+        </thead>
+        <tbody id="money-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-config.js?v=1"></script>
+<script src="admin.js?v=1"></script>
+</body>
+</html>

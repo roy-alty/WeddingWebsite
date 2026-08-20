@@ -116,6 +116,35 @@ to `<form class="rsvp-form" action="https://formspree.io/f/YOUR_ID" method="POST
 and delete the `onsubmit` attribute (the `sendRSVP` function in
 `script.js` is then unused and can stay or be removed).
 
+## 5b. Optional: RSVP database, seating, and gift tracking (Supabase)
+
+By default RSVPs only go out by email (section 5 above) — nothing is
+saved anywhere you can search, filter, or build a seating chart from.
+`admin.html` adds a password-protected dashboard for that, backed by a
+free [Supabase](https://supabase.com) database. It's entirely optional;
+skip this section and everything else works exactly as before.
+
+1. Create a free project at [supabase.com](https://supabase.com).
+2. Open **SQL Editor** in your project, paste in the contents of
+   `supabase/schema.sql`, and run it. This creates three tables —
+   `rsvps`, `seating`, `contributions` — with security rules so guests
+   can only submit an RSVP, and everything else requires your login.
+3. Create your own login: **Authentication → Users → Add user** (any
+   email + password — it doesn't need to be `rsvpEmail`, just something
+   only you know).
+4. Go to **Settings → API** and copy the **Project URL** and the
+   **anon / public** key into `supabase-config.js`. (That key is safe to
+   have in client-side code — the RLS rules from step 2 are what
+   actually restrict access, not secrecy of the key.)
+5. Open `admin.html` (locally or once deployed) and log in with the
+   account from step 3. RSVPs submitted through the site now also land
+   here automatically; seating and gift/money entries you add yourself
+   as they come in.
+
+`admin.html` isn't linked from anywhere on the public site — bookmark
+it directly. Being unlinked isn't real security by itself though; the
+login (step 3) is what actually protects the data.
+
 ## 6. Host it for free
 
 Any of these work well for a static site like this. **GitHub Pages** is the

@@ -389,6 +389,11 @@
   <div class="date"><span data-field="weddingDay">[DD]</span> . <span data-field="weddingMonth">[MM]</span> . <span data-field="weddingYear">[YYYY]</span> — <span data-field="footerNote">[Footer note]</span></div>
 </footer>
 
+<!-- Optional: powers saving RSVPs to Supabase for admin.html. Site works
+     fine without these two loading (e.g. offline preview) — see
+     supabase-config.js. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-config.js?v=1"></script>
 <script src="script.js?v=3"></script>
 </body>
 </html>

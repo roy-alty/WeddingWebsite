@@ -1,0 +1,210 @@
+/* Admin dashboard — reuses the color tokens and fonts from style.css
+   (linked before this file) but lays out as a normal wide dashboard,
+   not the narrow scrolling site sections. */
+
+body.admin-body {
+  background: var(--cream);
+  padding: 32px 20px 80px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.admin-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.admin-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--green-deep);
+}
+
+.admin-header .who { font-size: 14px; color: var(--ink-soft); }
+
+.btn {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  border: 1px solid var(--green-deep);
+  background: var(--green-deep);
+  color: #fff;
+  padding: 9px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn:hover { opacity: 0.9; }
+.btn.secondary {
+  background: #fff;
+  color: var(--green-deep);
+}
+.btn.danger {
+  background: #fff;
+  color: #a3462f;
+  border-color: #a3462f;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+/* ---------- Login gate ---------- */
+#login-view {
+  max-width: 360px;
+  margin: 80px auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+}
+#login-view h1 {
+  font-family: 'Playfair Display', serif;
+  color: var(--green-deep);
+  margin-bottom: 6px;
+}
+#login-view p { color: var(--ink-soft); font-size: 14px; margin-bottom: 20px; }
+#login-view input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+}
+#login-view .btn { width: 100%; margin-top: 6px; }
+#login-status { min-height: 20px; font-size: 13px; margin-top: 10px; }
+#login-status.error { color: #a3462f; }
+#not-configured {
+  max-width: 480px;
+  margin: 80px auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.7;
+}
+#not-configured code {
+  background: var(--paper);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* ---------- Tabs ---------- */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
+}
+.tab-btn {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  border-bottom: 2px solid transparent;
+}
+.tab-btn.active {
+  color: var(--green-deep);
+  border-bottom-color: var(--gold-deep);
+  font-weight: 600;
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ---------- Summary stat row ---------- */
+.stat-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  min-width: 120px;
+}
+.stat-card .num {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  color: var(--green-deep);
+}
+.stat-card .label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---------- Add-row forms ---------- */
+.add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: end;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+.add-form .field { display: flex; flex-direction: column; gap: 4px; }
+.add-form label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.add-form input,
+.add-form select {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+}
+
+/* ---------- Data tables ---------- */
+.data-table-wrap {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+table.data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.data-table th,
+table.data-table td {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+table.data-table th {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: var(--paper);
+}
+table.data-table tr:last-child td { border-bottom: none; }
+table.data-table td.message-cell,
+table.data-table td.note-cell {
+  white-space: normal;
+  max-width: 260px;
+}
+.empty-row td { color: var(--ink-soft); font-style: italic; }
