@@ -1,12 +1,12 @@
 {
   "brideName": "Daphine",
   "groomName": "Adams",
-  "weddingDateISO": "2026-12-13T18:00:00",
+  "weddingDateISO": "2026-12-13T13:00:00",
   "weddingMonth": "December",
   "weddingDay": "13",
   "weddingDayOfWeek": "Sunday",
   "weddingYear": "2026",
-  "weddingTime": "6:00 PM",
+  "weddingTime": "1:00 PM",
   "venueName": "To Be Announced",
   "venueCity": "Dallas–Fort Worth (DFW) Area, Texas",
 
@@ -27,7 +27,7 @@
   "preWeddingDressNote": "Optional: African Kitenge / Ankara warmly welcomed.",
 
   "itinerary": [
-    { "icon": "💍", "time": "TBA", "label": "Ceremony" },
+    { "icon": "💍", "time": "1:00 PM", "label": "Ceremony" },
     { "icon": "🥂", "time": "TBA", "label": "Reception" },
     { "icon": "🍽️", "time": "TBA", "label": "Dinner" },
     { "icon": "🎉", "time": "TBA", "label": "Let's Celebrate!" }
