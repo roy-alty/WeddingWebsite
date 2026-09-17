@@ -257,6 +257,9 @@ function applyContent(content) {
   const preweddingLink = document.getElementById("prewedding-maps-link");
   if (preweddingLink && content.preWeddingMapsLink) preweddingLink.href = content.preWeddingMapsLink;
 
+  const amazonRegistryLink = document.getElementById("amazon-registry-link");
+  if (amazonRegistryLink && content.amazonRegistryLink) amazonRegistryLink.href = content.amazonRegistryLink;
+
   const cashappLink = document.getElementById("cashapp-link");
   if (cashappLink && content.cashtag) {
     const tag = content.cashtag.startsWith("$") ? content.cashtag.slice(1) : content.cashtag;

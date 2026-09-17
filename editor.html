@@ -304,6 +304,12 @@ button {
       <div class="row single">
         <div><label for="contributionsIntro">Intro Text</label><textarea id="contributionsIntro" rows="3"></textarea></div>
       </div>
+      <div class="row single">
+        <div><label for="amazonRegistryLink">Amazon Registry Link</label><input type="text" id="amazonRegistryLink" placeholder="https://www.amazon.com/wedding/guest-view/..."></div>
+      </div>
+      <div class="row single">
+        <div><label for="registryMessage">Registry Message</label><textarea id="registryMessage" rows="3"></textarea></div>
+      </div>
       <div class="row">
         <div><label for="coupleContribution">Couple Contribution</label><input type="text" id="coupleContribution" placeholder="$300"></div>
         <div><label for="singleContribution">Single Contribution</label><input type="text" id="singleContribution" placeholder="$200"></div>
@@ -419,7 +425,7 @@ const FIELD_IDS = [
   "ceremonyVenueName","ceremonyAddress","ceremonyMapsLink",
   "receptionVenueName","receptionAddress","receptionMapsLink",
   "preWeddingDate","preWeddingVenueName","preWeddingAddress","preWeddingMapsLink","preWeddingDressNote",
-  "contributionsIntro","coupleContribution","singleContribution",
+  "contributionsIntro","amazonRegistryLink","registryMessage","coupleContribution","singleContribution",
   "cashappTreasurer","cashappPhone","cashtag",
   "zelleName","zelleContact",
   "dressNote","hashtag","rsvpIntro","rsvpDeadline","rsvpEmail","footerNote"
@@ -445,6 +451,7 @@ const DEFAULTS = {
     { icon: "🎉", time: "10:30 PM", label: "Let's Celebrate!" }
   ],
   contributionsIntro: "Your presence at our wedding is the greatest gift of all. Should you wish to honor us further, here are a few options.",
+  amazonRegistryLink: "#", registryMessage: "Feel free to pick any gift for the couple from our Amazon registry.",
   coupleContribution: "$300", singleContribution: "$200",
   cashappTreasurer: "Treasurer Name", cashappPhone: "Phone Number", cashtag: "$Cashtag",
   zelleName: "Zelle Name", zelleContact: "Zelle Phone or Email",
