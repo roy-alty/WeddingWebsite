@@ -170,43 +170,56 @@ async function sendRSVP(e) {
   statusEl.textContent = "";
   statusEl.classList.remove("success", "error");
 
-  // Save to Supabase (if configured) independently of the email below —
-  // this runs regardless of whether the email step succeeds, fails, or
-  // is slow, so admin.html always gets the RSVP even if, say, the email
-  // relay is down or (when previewing via file://) blocked by the
-  // browser.
+  // Save to Supabase (if configured) and send the email in parallel.
+  // Either one succeeding counts as the RSVP being received: if the
+  // Supabase save works, the guest sees success right away even if the
+  // email relay (FormSubmit) is down or slow — the RSVP is still in
+  // admin.html. The email keeps going in the background.
   const sb = getSupabase();
-  if (sb) {
-    sb.from("rsvps")
-      .insert({
-        name,
-        attending,
-        guest_count: Number(guests) || 1,
-        message,
-      })
-      .then(({ error }) => {
-        if (error) console.error("Supabase RSVP insert failed:", error);
-      });
-  }
+  const saved = sb
+    ? sb
+        .from("rsvps")
+        .insert({
+          name,
+          attending,
+          guest_count: Number(guests) || 1,
+          message,
+        })
+        .then(({ error }) => {
+          if (error) console.error("Supabase RSVP insert failed:", error);
+          return !error;
+        })
+        .catch((err) => {
+          console.error("Supabase RSVP insert failed:", err);
+          return false;
+        })
+    : Promise.resolve(false);
 
-  try {
-    const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(RSVP_EMAIL)}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({
-        _subject: `RSVP from ${name}`,
-        Name: name,
-        Attending: attending,
-        "Number of Guests": guests,
-        Message: message,
-      }),
+  const emailed = fetch(`https://formsubmit.co/ajax/${encodeURIComponent(RSVP_EMAIL)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      _subject: `RSVP from ${name}`,
+      Name: name,
+      Attending: attending,
+      "Number of Guests": guests,
+      Message: message,
+    }),
+  })
+    .then((res) => {
+      if (!res.ok) console.error("FormSubmit RSVP email failed:", res.status);
+      return res.ok;
+    })
+    .catch((err) => {
+      console.error("FormSubmit RSVP email failed:", err);
+      return false;
     });
-    if (!res.ok) throw new Error("Request failed");
 
+  if ((await saved) || (await emailed)) {
     form.hidden = true;
     statusEl.textContent = "🎉 Thank you! Your RSVP has been sent.";
     statusEl.classList.add("success");
-  } catch (err) {
+  } else {
     statusEl.textContent = `Something went wrong sending this automatically — please email us directly at ${RSVP_EMAIL}.`;
     statusEl.classList.add("error");
     submitBtn.disabled = false;
