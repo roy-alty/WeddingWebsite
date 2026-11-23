@@ -53,11 +53,6 @@
   <span id="music-icon">♪</span>
 </button>
 
-<!-- Floating RSVP button — stays visible while scrolling, hides once the
-     RSVP section itself is on screen (see the IntersectionObserver in
-     script.js). -->
-<a href="#rsvp-section" id="floating-rsvp" class="floating-rsvp">RSVP</a>
-
 <!-- ============ COVER ============ -->
 <section class="cover">
   <div class="cover-inner">
@@ -80,7 +75,6 @@
       </div>
     </div>
     <div class="location-line"><span data-field="venueCity">Alvarado, Texas</span> <span class="edit-hint">edit venue</span></div>
-    <a href="#rsvp-section" class="cover-rsvp-btn">RSVP</a>
   </div>
   <div class="scroll-cue">Scroll ↓</div>
 </section>
@@ -370,43 +364,14 @@
 <!-- ============ RSVP ============ -->
 <section class="section rsvp" id="rsvp-section">
   <div class="eyebrow">RSVP</div>
-  <h2 class="title reveal">Confirm Your Attendance</h2>
-  <p data-field="rsvpIntro">[RSVP intro]</p>
-  <p>Please confirm by <span data-field="rsvpDeadline">[RSVP Deadline Date]</span>.</p>
-
+  <h2 class="title reveal">RSVPs Are Closed</h2>
   <!--
-    Submits directly to rsvpEmail via FormSubmit.co (no signup, no guest
-    email app) — see sendRSVP() in script.js. IMPORTANT: FormSubmit
-    requires a one-time activation — submit this form once yourself
-    right after deploying, then click "Activate Form" in the email
-    FormSubmit sends to rsvpEmail. Until activated, submissions won't
-    actually arrive. See README.md for details.
+    RSVPs closed after the deadline. To reopen, restore the form from git
+    history (it submits via sendRSVP() in script.js) along with the
+    floating and cover RSVP buttons.
   -->
-  <form class="rsvp-form reveal" id="rsvp-form" onsubmit="return sendRSVP(event)">
-    <div>
-      <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" required>
-    </div>
-    <div>
-      <label for="attending">Will you attend?</label>
-      <select id="attending" name="attending" required>
-        <option value="">Select an option</option>
-        <option value="Yes, joyfully accept">Yes, joyfully accept</option>
-        <option value="No, regretfully decline">No, regretfully decline</option>
-      </select>
-    </div>
-    <div>
-      <label for="guests">Number of Guests</label>
-      <input type="number" id="guests" name="guests" min="1" value="1">
-    </div>
-    <div>
-      <label for="message">Message (optional)</label>
-      <textarea id="message" name="message" rows="3"></textarea>
-    </div>
-    <button type="submit">Send RSVP</button>
-    <p class="rsvp-note">Your RSVP is sent directly to <span data-field="rsvpEmail">[your email]</span> — no email app needed. <span class="edit-hint">edit via editor.html</span>.</p>
-  </form>
-  <p id="rsvp-status" class="rsvp-status" role="status" aria-live="polite"></p>
+  <p>RSVPs closed on <span data-field="rsvpDeadline">[RSVP Deadline Date]</span>. Thank you to everyone who responded — we can't wait to celebrate with you!</p>
+  <p class="rsvp-note">Questions? Reach us at <span data-field="rsvpEmail">[your email]</span>.</p>
 </section>
 
 <footer>
@@ -419,6 +384,6 @@
      supabase-config.js. -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="supabase-config.js?v=1"></script>
-<script src="script.js?v=3"></script>
+<script src="script.js?v=4"></script>
 </body>
 </html>
